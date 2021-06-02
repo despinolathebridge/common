@@ -1,0 +1,32 @@
+client:
+  core-accounts-ms: http://localhost:8080/
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: group-accounts-register
+    producer:
+      value-serializer: io.cloudevents.kafka.CloudEventSerializer
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+  leapx-kafka:
+    bootstrap-servers: leapxnautilus.servicebus.windows.net:9093
+    client-id: stream-processor-accounts-leapx-local
+    sasl:
+      mechanism: PLAIN
+      security-protocol: SASL_SSL
+      jaas-config: org.apache.kafka.common.security.plain.PlainLoginModule required username="$ConnectionString" password="Endpoint=sb://leapxnautilus.servicebus.windows.net/;SharedAccessKeyName=nautilusKey;SharedAccessKey=qvMDueyTZtjb1NobQt42VyB6bRi7x3JUFF4xaRtO/fw=";
+    consumer:
+      topic: users
+      group-id: stream-processor-accounts-group-local
+custom:
+  kafka:
+    users-topic-name: USERS
+    usersdlt-topic-name: USERS_DLT
+    users-events:
+      - team.nautilus.event.user.activated
+    accounts-topic-name: ACCOUNTS
+    accountsdlt-topic-name: ACCOUNTS_DLT
+    accounts-events:
+      - team.nautilus.event.accounts.new
+    accounts-ledger-events:
+      - team.nautilus.event.accounts.ledger.new
